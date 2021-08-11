@@ -29,8 +29,21 @@ void    ft_putnbr(int nbr)
 
 void	ft_print(int n)
 {
-	if (n == SIGUSR1)
-		ft_putchar('l');
+	static int chislo;
+	static int i;
+
+	if (n == SIGUSR1 || n == SIGUSR2)
+	{
+		if (n == SIGUSR2)
+			chislo = chislo + 2 * i;
+		i++;
+	}
+	if (i == 8)
+	{
+		ft_putchar(chislo);
+		chislo = 0;
+		i = 0;
+	}
 }
 
 int main(int argc, char **argv)
@@ -44,6 +57,7 @@ int main(int argc, char **argv)
         ft_putnbr(s_pid_name);
         ft_putchar('\n');
 		signal(SIGUSR1, ft_print);
+		signal(SIGUSR2, ft_print);
         while (1)
 			pause();
     }

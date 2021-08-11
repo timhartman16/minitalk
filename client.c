@@ -25,15 +25,36 @@ int	ft_atoi(char *str)
 	return (sign * num);
 }
 
+void	otpravka(int pid_name, char c)
+{
+	int i;
+	int num;
+
+	i = 0;
+	num = c;
+	while (i < 8)
+	{
+		if (num % 2 == 0)
+			kill(pid_name, SIGUSR1);
+		else
+			kill(pid_name, SIGUSR2);
+		usleep(100);
+		num /= 2;
+		i++;
+	}
+}
+
 int main(int argc, char **argv)
 {
 	int	pid_name;
-	int	i;
+	int i;
 
-	if (argc == 2)
+	i = 0;
+	if (argc == 3)
 	{
 		pid_name = ft_atoi(argv[1]);
-		kill(pid_name, SIGUSR1);
+		while (argv[2][i])
+			otpravka(pid_name, argv[2][i++]);
 	}
 	exit(0);
 }
