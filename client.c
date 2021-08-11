@@ -24,6 +24,7 @@ int	ft_atoi(char *str)
 		num = num * 10 + (str[i++] - '0');
 	return (sign * num);
 }
+
 int main(int argc, char **argv)
 {
 	int	pid_name;
