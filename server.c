@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <signal.h>
 
 void    ft_putchar(char c)
 {
@@ -26,9 +27,15 @@ void    ft_putnbr(int nbr)
         ft_putchar(nbr + '0');
 }
 
+void	ft_print(int n)
+{
+	if (n == SIGUSR1)
+		ft_putchar('l');
+}
+
 int main(int argc, char **argv)
 {
-    __pid_t s_pid_name;
+    pid_t s_pid_name;
 
     if (argc == 1)
     {
@@ -36,7 +43,9 @@ int main(int argc, char **argv)
         ft_putstr("PID: ");
         ft_putnbr(s_pid_name);
         ft_putchar('\n');
-        pause();
+		signal(SIGUSR1, ft_print);
+        while (1)
+			pause();
     }
     return (0);
 }
