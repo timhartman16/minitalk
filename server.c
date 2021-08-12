@@ -1,5 +1,4 @@
-#include <unistd.h>
-#include <signal.h>
+#include "minitalk.h"
 
 void    ft_putchar(char c)
 {
@@ -46,6 +45,7 @@ int main(int argc, char **argv)
 {
     pid_t s_pid_name;
 
+	(void)argv;
     if (argc == 1)
     {
         s_pid_name = getpid();
