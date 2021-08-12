@@ -1,5 +1,4 @@
 #include <unistd.h>
-#include <stdio.h>
 #include <signal.h>
 
 void    ft_putchar(char c)
@@ -27,17 +26,14 @@ void    ft_putnbr(int nbr)
         ft_putchar(nbr + '0');
 }
 
-void	ft_print(int n)
+void	ft_print(int sig)
 {
 	static int chislo;
 	static int i;
 
-	if (n == SIGUSR1 || n == SIGUSR2)
-	{
-		if (n == SIGUSR2)
-			chislo = chislo + 2 * i;
-		i++;
-	}
+	if (sig == SIGUSR2)
+		chislo += 1 << (7 - i);
+	i++;
 	if (i == 8)
 	{
 		ft_putchar(chislo);

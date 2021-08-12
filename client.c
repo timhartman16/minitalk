@@ -1,5 +1,4 @@
 #include <unistd.h>
-#include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
 
@@ -30,17 +29,16 @@ void	otpravka(int pid_name, char c)
 	int i;
 	int num;
 
-	i = 0;
+	i = 7;
 	num = c;
-	while (i < 8)
+	while (i >= 0)
 	{
-		if (num % 2 == 0)
-			kill(pid_name, SIGUSR1);
-		else
+		if (num >> i & 1)
 			kill(pid_name, SIGUSR2);
+		else
+			kill(pid_name, SIGUSR1);
 		usleep(100);
-		num /= 2;
-		i++;
+		i--;
 	}
 }
 
