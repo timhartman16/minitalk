@@ -1,4 +1,6 @@
-#include "minitalk.h"
+#include <unistd.h>
+#include <signal.h>
+#include <stdlib.h>
 
 void    ft_putchar(char c)
 {
@@ -25,19 +27,27 @@ void    ft_putnbr(int nbr)
         ft_putchar(nbr + '0');
 }
 
-void	ft_print(int sig)
+void	priem(int sig)
 {
 	static int chislo;
 	static int i;
-
-	if (sig == SIGUSR2)
-		chislo += 1 << (7 - i);
-	i++;
-	if (i == 8)
+	
+	if (sig == -1)
 	{
-		ft_putchar(chislo);
-		chislo = 0;
 		i = 0;
+		chislo = 0;
+	}
+	else
+	{
+		if (sig == SIGUSR2)
+			chislo += 1 << (7 - i);
+		i++;
+		if (i == 8)
+		{
+			ft_putchar(chislo);
+			chislo = 0;
+			i = 0;
+		}
 	}
 }
 
@@ -52,8 +62,9 @@ int main(int argc, char **argv)
         ft_putstr("PID: ");
         ft_putnbr(s_pid_name);
         ft_putchar('\n');
-		signal(SIGUSR1, ft_print);
-		signal(SIGUSR2, ft_print);
+		priem(-1);
+		signal(SIGUSR1, priem);
+		signal(SIGUSR2, priem);
         while (1)
 			pause();
     }
