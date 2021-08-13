@@ -1,14 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tanastac <tanastac@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/13 13:20:40 by tanastac          #+#    #+#             */
+/*   Updated: 2021/08/13 13:31:25 by tanastac         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
 
-void    ft_putstr(char *str)
+void	ft_putstr(char *str)
 {
-    while (*str)
-    {
-        write(1, str, 1);
-        str++;
-    }
+	while (*str)
+	{
+		write(1, str, 1);
+		str++;
+	}
+}
+
+int	ft_error(int num)
+{
+	ft_putstr("Your input is not correct.\n");
+	ft_putstr("Usage: ./client *PID* *message*\n");
+	num = 1;
+	return (num);
 }
 
 int	ft_atoi(char *str)
@@ -35,8 +55,8 @@ int	ft_atoi(char *str)
 
 void	otpravka(int pid_name, char c)
 {
-	int i;
-	int num;
+	int	i;
+	int	num;
 
 	i = 7;
 	num = c;
@@ -51,20 +71,21 @@ void	otpravka(int pid_name, char c)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int	pid_name;
-	int i;
+	int	i;
+	int	err;
 
 	i = 0;
+	err = 0;
 	if (argc == 3)
 	{
 		pid_name = ft_atoi(argv[1]);
 		if (pid_name == 0)
 		{
-			ft_putstr("Your input is not correct.\n");
-			ft_putstr("Usage: ./client *PID* *message*\n");
-			exit(1);
+			err = ft_error(err);
+			exit(err);
 		}
 		while (argv[2][i])
 		{
@@ -73,10 +94,6 @@ int main(int argc, char **argv)
 		}
 	}
 	else
-	{
-		ft_putstr("Your input is not correct.\n");
-		ft_putstr("Usage: ./client *PID* *message*\n");
-		exit(1);
-	}
-	exit(0);
+		err = ft_error(err);
+	exit(err);
 }
